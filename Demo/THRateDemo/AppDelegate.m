@@ -23,7 +23,7 @@
                    rateButton:@"Rate"
                nextRateButton:@"Next"
                  cancelButton:@"Nevel remind me"
-                  launchTimes:1 autoIncreaseTimes:2 appID:@"2431241421"];
+                  launchTimes:1 autoIncreaseTimes:1 appID:@"2431241421"];
     return YES;
 }
 

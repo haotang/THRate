@@ -11,6 +11,7 @@
 #define kTHRateCurrentLaunchTimes           @"THRateCurrentLaunchTimes"
 #define kTHRateCurrentRequiredLaunchTimes    @"THRateCurrentRequiredLaunchTimes"
 #define kTHRateNevelShowRated                     @"THRateNevelShowRated"
+#define kTHRateLastShowRateDate             @"THRateLastShowRateDate"
 
 @interface THRate ()<UIAlertViewDelegate>
 
@@ -64,8 +65,24 @@
         // Reset current launch times
         [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:kTHRateCurrentLaunchTimes];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:[THRate sharedInstance] cancelButtonTitle:nextRateButton otherButtonTitles:rateButton, cancelButton, nil];
-        [alert show];
+        BOOL canShowAlert = NO;
+        NSTimeInterval current = [[NSDate date] timeIntervalSince1970];
+
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:kTHRateLastShowRateDate]) {
+            NSTimeInterval last = [[[NSUserDefaults standardUserDefaults] objectForKey:kTHRateLastShowRateDate] doubleValue];
+            NSTimeInterval time = current - last;
+            if (time > 24 * 60 * 60) {
+                canShowAlert = YES;
+            }
+        } else {
+            canShowAlert = YES;
+        }
+        
+        if (canShowAlert) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:[THRate sharedInstance] cancelButtonTitle:nextRateButton otherButtonTitles:rateButton, cancelButton, nil];
+            [alert show];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithDouble:current] forKey:kTHRateLastShowRateDate];
+        }
     }
 }
 
