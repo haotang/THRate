@@ -64,7 +64,7 @@
         // Reset current launch times
         [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:kTHRateCurrentLaunchTimes];
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:[THRate sharedInstance] cancelButtonTitle:cancelButton otherButtonTitles:rateButton, nextRateButton, nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:[THRate sharedInstance] cancelButtonTitle:nextRateButton otherButtonTitles:rateButton, cancelButton, nil];
         [alert show];
     }
 }
@@ -96,7 +96,7 @@
 #pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
+    if (buttonIndex == 2) {
         // refuse rate
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kTHRateNevelShowRated];
     } else if (buttonIndex == 1) {
